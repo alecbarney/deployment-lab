@@ -3,6 +3,7 @@ const path = require('path')
 
 const app = express()
 
+test= []
 
 app.use(express.json())
 app.use('/style', express.static('./public/styles.css'))
@@ -21,6 +22,15 @@ var rollbar = new Rollbar({
 
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
+
+app.post('/api/test', (req, res) =>{
+    let {error} = req.body
+    test.push(error)
+    rollbar.log('this should be an error')
+})
+
+
+app.use(rollbar.errorHandler())
 
 
 
