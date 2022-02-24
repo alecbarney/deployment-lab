@@ -1,0 +1,13 @@
+body{
+    background-color: grey;
+    font-size: 24pt;
+}
+button{
+    border-radius: 5px;
+    padding: 6.5px;
+    background-color: darkolivegreen;
+}
+button:hover{
+    cursor: pointer;
+    background-color: darkseagreen;
+}
