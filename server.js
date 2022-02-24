@@ -27,7 +27,7 @@ app.post('/api/grocery', (req, res)=>{
     let {name} = req.body
     name = name.trim()
 
-    const index = students.findIndex(groceryName=> groceryName === name)
+    const index = groceries.findIndex(groceryName=> groceryName === name)
 
     if(index === -1 && name !== ''){
         groceries.push(name)
