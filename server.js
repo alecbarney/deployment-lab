@@ -16,7 +16,7 @@ const app = express()
 app.use(express.json())
 app.use('/style', express.static('./public/styles.css'))
 
-let students = []
+let groceries = []
 
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'))
@@ -27,18 +27,18 @@ app.post('/api/grocery', (req, res)=>{
     let {name} = req.body
     name = name.trim()
 
-    const index = students.findIndex(studentName=> studentName === name)
+    const index = students.findIndex(groceryName=> groceryName === name)
 
     if(index === -1 && name !== ''){
-        students.push(name)
-        rollbar.log('Student added successfully', {author: 'Scott', type: 'manual entry'})
-        res.status(200).send(students)
+        groceries.push(name)
+        rollbar.log('Grocery item added successfully', {author: 'Alec', type: 'manual entry'})
+        res.status(200).send(groceries)
     } else if (name === ''){
-        rollbar.error('No name given')
-        res.status(400).send('must provide a name.')
+        rollbar.error('No item given')
+        res.status(400).send('must provide an item.')
     } else {
-        rollbar.error('student already exists')
-        res.status(400).send('that student already exists')
+        rollbar.error('Item already exists')
+        res.status(400).send('that item has already been added')
     }
 
 })

@@ -27,8 +27,8 @@
                     container.innerHTML = ''
                     nameInput.value = ''
 
-                    res.data.forEach(studentName => {
-                        container.innerHTML += `<p>${studentName}</p>`
+                    res.data.forEach(groceryName => {
+                        container.innerHTML += `<p>${groceryName}</p>`
                     })
                 })
                 .catch(err => {
