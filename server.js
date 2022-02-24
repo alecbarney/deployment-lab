@@ -1,79 +1,52 @@
-//BACK END JS 
 const express = require('express')
-const app = express()
 const path = require('path')
-const Rollbar = require("rollbar");
-
+const Rollbar = require('rollbar')
 
 var rollbar = new Rollbar({
-  accessToken: 'a905973e90044b0bac1c8dddc978d9c3',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-})
+    accessToken: 'a905973e90044b0bac1c8dddc978d9c3',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  })
+  
+  // record a generic message and send it to Rollbar
+  rollbar.log('Hello world!')
 
-// record a generic message and send it to Rollbar
-rollbar.log('Hello world!')
-
+const app = express()
 
 app.use(express.json())
+app.use('/style', express.static('./public/styles.css'))
+
+let students = []
+
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'))
+    rollbar.info('html file served successfully.')
+})
+
+app.post('/api/student', (req, res)=>{
+    let {name} = req.body
+    name = name.trim()
+
+    const index = students.findIndex(studentName=> studentName === name)
+
+    if(index === -1 && name !== ''){
+        students.push(name)
+        rollbar.log('Student added successfully', {author: 'Scott', type: 'manual entry'})
+        res.status(200).send(students)
+    } else if (name === ''){
+        rollbar.error('No name given')
+        res.status(400).send('must provide a name.')
+    } else {
+        rollbar.error('student already exists')
+        res.status(400).send('that student already exists')
+    }
+
+})
+
+const port = process.env.PORT || 4545
+
+// rolly
 app.use(rollbar.errorHandler())
 
-//GET ENDPOINTS
-app.get(`/`, (req,res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'))
-})
-//ROLLBAR REQS
-app.get('/api/critical', (req,res) => {
-    res.status(200).send(`Critical sent to rollbar`)
-    rollbar.critical('rollbar critical sent')
-})
+app.listen(port, () => console.log(`Take us to warp ${port}!`))
 
-app.get('/api/error', (req,res) => {
-    res.status(200).send(`error sent to rollbar`)
-    rollbar.error('rollbar error sent')
-})
-
-app.get('/api/info', (req,res) => {
-    res.status(200).send(`info sent to rollbar`)
-    rollbar.info('this should work for info')
-})
-
-app.get('/api/warning', (req,res) => {
-    res.status(200).send(`warning sent to rollbar`)
-    rollbar.warning('this is my warning')
-})
-//sends javascript and css to client--------------------------//
-app.get('/js', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.js'))
-})
-app.get('/styles.css', (req,res) => {
-    res.sendFile(path.join(__dirname, '../public/styles.css'))
-})
-//-----------------------------------------------------------//
-
-
-// let port = process.env.PORT || 3005
-// app.listen(port, () => console.log(`Now listening on ${port}`))
-
-app.get('/api/critical', (req,res) => {
-    res.status(200).send(`Critical sent to rollbar`)
-    rollbar.critical(context = 'rollbar critical sent')
-})
-
-app.get('/api/error', (req,res) => {
-    res.status(200).send(`error sent to rollbar`)
-    rollbar.error(context = 'rollbar error sent')
-})
-
-app.get('/api/info', (req,res) => {
-    res.status(200).send(`info sent to rollbar`)
-    rollbar.info(context = 'this should work for info')
-})
-
-app.get('/api/warning', (req,res) => {
-    res.status(200).send(`warning sent to rollbar`)
-    rollbar.warning(context = 'this is my warning')
-}) 
-
-let port = process.env.PORT || 3005
-app.listen(port, () => console.log(`Now listening on ${port}`))

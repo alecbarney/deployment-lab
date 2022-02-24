@@ -1,7 +1,7 @@
 {
   "name": "monitoring",
   "version": "1.0.0",
-  "description": "Monitoring lab",
+  "description": "Create a new directory.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,8 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.26.0",
-    "express": "^4.17.3",
+    "express": "^4.17.1",
     "rollbar": "^2.24.0"
   }
 }
