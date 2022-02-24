@@ -36,8 +36,12 @@ app.post('/api/grocery', (req, res)=>{
     } else if (name === ''){
         rollbar.error('No item given')
         res.status(400).send('must provide an item.')
-    } else {
-        rollbar.error('Item already exists')
+    }
+    else if (name === 'Pokemon cards'){
+        rollbar.warning('This guys a nerd')
+        res.status(400).send('Grow up nerd.')}
+   else {
+        rollbar.critical('Item already exists')
         res.status(400).send('that item has already been added')
     }
 
