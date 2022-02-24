@@ -52,14 +52,8 @@ app.get('/styles.css', (req,res) => {
 //-----------------------------------------------------------//
 
 
-//PUT ENDPOINTS
-
-//POST ENDPOINTS
-
-//DELETE ENDPOINTS
-
-let port = process.env.PORT || 3005
-app.listen(port, () => console.log(`Now listening on ${port}`))
+// let port = process.env.PORT || 3005
+// app.listen(port, () => console.log(`Now listening on ${port}`))
 
 app.get('/api/critical', (req,res) => {
     res.status(200).send(`Critical sent to rollbar`)
@@ -80,3 +74,6 @@ app.get('/api/warning', (req,res) => {
     res.status(200).send(`warning sent to rollbar`)
     rollbar.warning(context = 'this is my warning')
 }) 
+
+let port = process.env.PORT || 3005
+app.listen(port, () => console.log(`Now listening on ${port}`))
