@@ -9,10 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 </head>
 <body>
-    <h1>Student List</h1>
+    <h1>Grocery List</h1>
     <form>
-        <input type="text" placeholder="Type name here"/>
-        <button>Add Student</button>
+        <input type="text" placeholder="Type item here"/>
+        <button>Add grocery item</button>
     </form>
     <section></section>
     <script>
@@ -22,7 +22,7 @@
 
         function submitHandler(e){
             e.preventDefault()
-            axios.post('/api/student', {name: nameInput.value, })
+            axios.post('/api/grocery', {name: nameInput.value, })
                 .then(res => {
                     container.innerHTML = ''
                     nameInput.value = ''
